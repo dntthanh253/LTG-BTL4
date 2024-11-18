@@ -421,7 +421,6 @@ export class CoGanhBoard extends Component {
                     option.setPosition(realPosOption[0], realPosOption[1], 0)
                     newBoard.move(node, option.getPosition())
 
-                    console.log(newBoard.map)
                     let value = this.minValue(bestValue, Infinity, depth - 1, newBoard.map)
                     if (value >= bestValue) {
                         bestValue = value
@@ -439,9 +438,9 @@ export class CoGanhBoard extends Component {
 
     minValue(alpha: number, beta: number, depth: number, map: number[][]) {
         if (depth === 0) {
-            return this.staticEval(Chess.Red)
+            return this.staticEval(Chess.Blue)
         }
-        let bestValue = Infi  nity
+        let bestValue = Infinity
 
         for (var node of this.redNodes) {
             let ficPosNode = CoGanhBoard.posRealToFiction(node.getPosition().x, node.getPosition().y)
@@ -475,7 +474,7 @@ export class CoGanhBoard extends Component {
         }
         let bestValue = -Infinity
 
-        for (var node of this.redNodes) {
+        for (var node of this.blueNodes) {
             let ficPosNode = CoGanhBoard.posRealToFiction(node.getPosition().x, node.getPosition().y)
             for (var movablePos of this.moveRules[ficPosNode[0] * 5 + ficPosNode[1]]) {
                 if (this.map[movablePos[0]][movablePos[1]] === 0) {
@@ -487,8 +486,7 @@ export class CoGanhBoard extends Component {
                     let realPosOption = CoGanhBoard.posFictionToReal(movablePos[0], movablePos[1])
                     option.setPosition(realPosOption[0], realPosOption[1], 0)
                     newBoard.move(node, option.getPosition())
-                    console.log(newBoard.map)
-                    let value = this.maxValue(alpha, beta, depth - 1, newBoard.map)
+                    let value = this.minValue(alpha, beta, depth - 1, newBoard.map)
                     if (value > bestValue) {
                         bestValue = value
                     }
